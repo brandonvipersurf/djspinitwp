@@ -6,14 +6,22 @@ import { FlatList } from 'react-native-web';
 export default function App() {
   const [allBlogs, setAllBlogs] = useState([]);
   const getAllBlogs= () => {
-    var url = 'test.vipersurf.com/wp-json/wp/v2/posts?per_page=2';
-    fetch(url)
+    var url = 'test.vipersurf.com/wp-json';
+    fetch(url,{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
       .then((response) => response.json())
       .then((json) => {
-        setAllBlogs(json);
+        console.log(json);
+        setAllBlogs(JSON.stringify(json));
+        console.log(JSON.stringify(json));
       })
       .catch((error) => {
-        console.error(error);})};
+        console.log(error);})};
 
   console.log(allBlogs);
 
@@ -22,7 +30,11 @@ export default function App() {
     });
 
   return (
-    <View style={styles.container}>
+    console.log(allBlogs),
+   <text>Hello World</text>,
+  <div>{allBlogs}</div>)
+
+    {/* <View style={styles.container}>
       <FlatList
       data={allBlogs}
       keyExtractor={({id},index) => id}
@@ -34,8 +46,8 @@ export default function App() {
         </View>
       )}/>
       <StatusBar style="auto" />
-    </View>
-  );
+    </View> */}
+  
 }
 
 const styles = StyleSheet.create({
