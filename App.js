@@ -15,16 +15,14 @@ export default function App() {
   const { width } = useWindowDimensions();
 
   const fetchPost = async () => {
-    const username = "brandon"; // Replace with your WordPress username
-    const password = "nEkOAKbGrEKH1@PQVvYLdiM#"; // Replace with your WordPress password
-    const credentials = btoa(`${username}:${password}`); // Encode credentials
-
     try {
       const response = await fetch(
-        "https://test.vipersurf.com/wp-json/wp/v2/posts?_embed=true",{
+        "https://test.vipersurf.com/wp-json/wp/v2/posts?_embed=true",
+        {
           headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
             Accept: "application/json",
-            Authorization: `Basic ${credentials}`,
             "Content-Type": "application/json",
           },
         }
