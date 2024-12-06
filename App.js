@@ -35,6 +35,7 @@ export default function App() {
       const data = await response.json();
       if (data.length > 0) {
         setPost(data[0]);
+        console.log("Data is:", data[0]);
       } else {
         console.error("No posts found.");
       }
@@ -43,6 +44,16 @@ export default function App() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const processShortcodes = (content) => {
+    return content
+      .replace(/\[et_pb_section.*?\]/g, "<div>") // Replace Divi sections with <div>
+      .replace(/\[\/et_pb_section\]/g, "</div>")
+      .replace(/\[et_pb_column.*?\]/g, '<div class="column">') // Replace columns
+      .replace(/\[\/et_pb_column\]/g, "</div>")
+      .replace(/\[et_pb_text.*?\]/g, "<p>") // Replace text
+      .replace(/\[\/et_pb_text\]/g, "</p>");
   };
 
   useEffect(() => {
@@ -66,7 +77,8 @@ export default function App() {
     );
   }
 
-  const htmlContent = post.content?.rendered || "<p>No content available</p>";
+  // Process shortcodes only when `post` is available
+  const cleanedContent = processShortcodes(post.content?.rendered || "<p>No content available</p>");
 
   return (
     <ScrollView style={styles.container}>
@@ -74,7 +86,7 @@ export default function App() {
       <Text style={styles.date}>
         {new Date(post.date).toLocaleDateString()}
       </Text>
-      <RenderHTML contentWidth={width} source={{ html: htmlContent }} />
+      <RenderHTML contentWidth={width} source={{ html: cleanedContent }} />
     </ScrollView>
   );
 }
